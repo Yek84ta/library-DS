@@ -1,5 +1,6 @@
 package management;
 
+import datastructures.lists.CustomArrayList;
 import library.Book;
 import library.Member;
 import library.Transaction;
@@ -7,27 +8,32 @@ import library.Transaction;
 import java.util.Date;
 
 public class TransactionManager {
-    // TODO: Define a data structure that stores transactions
+    private CustomArrayList<Transaction> transactions;
 
     public TransactionManager() {
-        // TODO: Initialize your data structure here
+        this.transactions = new CustomArrayList<>();
     }
 
     public Transaction addTransaction(String bookTitle, String memberName, String type) {
+        if (bookTitle == null || memberName == null || type == null) {
+            throw new IllegalArgumentException("Parameters cannot be null");
+        }
 
-        Transaction transaction = new Transaction(
-                "TXN-" + new Date().getTime(),
-                bookTitle,
-                memberName,
-                type
-        );
+        String transactionId = "TXN-" + System.currentTimeMillis();
+        Transaction transaction = new Transaction(transactionId, bookTitle, memberName, type);
 
-        // TODO: Add the transaction to your data structure
+        transactions.add(transaction);
         return transaction;
     }
 
     public Transaction getTransactionByIndex(int index) {
-        // TODO:
-        return null;
+        if (index < 0 || index >= transactions.size()) {
+            throw new IndexOutOfBoundsException("Invalid index: " + index);
+        }
+        return transactions.get(index);
+    }
+
+    public int getTransactionCount() {
+        return transactions.size();
     }
 }

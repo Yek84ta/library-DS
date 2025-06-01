@@ -30,19 +30,19 @@ public class Library {
 
             // Check if member already has a borrowed book
             if (memberManager.getLastTransaction(memberId)!= null &&
-                memberManager.getLastTransaction(memberId).getType().equals("BORROW")){
+                    memberManager.getLastTransaction(memberId).getType().equals("BORROW")){
 
                 System.out.println("First you have to return the borrowed book: " +
-                                    memberManager.getLastTransaction(memberId).getBookTitle());
+                        memberManager.getLastTransaction(memberId).getBookTitle());
 
             } else {
                 bookManager.setBookAvailability(isbn, false); // Book is borrowed so it is unavailable
                 Transaction transaction = transactionManager.addTransaction(bookManager.getBookByIsbn(isbn).getTitle(),
-                                                                            memberManager.getMember(memberId).getName(),
-                                                                            "BORROW");
+                        memberManager.getMember(memberId).getName(),
+                        "BORROW");
                 memberManager.recordTransaction(memberId, transaction); // Record a borrow transaction for member
             }
-        // If the book wasn't available, add member to the waitlist
+            // If the book wasn't available, add member to the waitlist
         } else {
             System.out.println("The requested book with code " + isbn + " is not available in the library.");
             bookManager.addToWaitlist(isbn, memberId);
@@ -53,8 +53,8 @@ public class Library {
 
         bookManager.setBookAvailability(isbn, true); // Book is returned so it is available
         Transaction transaction = transactionManager.addTransaction(bookManager.getBookByIsbn(isbn).getTitle(),
-                                                                    memberManager.getMember(memberId).getName(),
-                                                                    "RETURN");
+                memberManager.getMember(memberId).getName(),
+                "RETURN");
         memberManager.recordTransaction(memberId, transaction); // Record a return transaction for member
 
         // Check if anyone requested for this book while it was borrowed
